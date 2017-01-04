@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.youhuo.R;
+import com.example.administrator.youhuo.adapter.HomeContainerAdapter;
 import com.example.administrator.youhuo.adapter.SimplePagerAdapter;
 import com.example.administrator.youhuo.adapter.SimpleTestAdapter;
 import com.example.administrator.youhuo.model.HomeDate;
@@ -27,6 +28,7 @@ import com.example.administrator.youhuo.view.PullToRelashLayout;
 import com.example.administrator.youhuo.view.SuperViewPager;
 import com.example.administrator.youhuo.view.SupperRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -56,9 +58,30 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
                 case 1:
                     handleBanner();
                     break;
+                case 2:
+                    handleBard();
+                    break;
+                case 3:
+                    handleAllHotData();
+                    break;
             }
         }
     };
+    private List<HomeDate> banrdData;
+    private List<HomeDate> allHomeData;
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
 
     private Thread thread;
     private SuperViewPager autoScrollViewPager;
@@ -95,11 +118,13 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     }
 
     private void loadContainerData(Document parse) {
-        HomeUtils.getAllHomeData(parse);
+        allHomeData = HomeUtils.getAllHomeData(parse);
+        handler.sendEmptyMessage(3);
     }
 
     private void loadBanrdData(Document parse) {
-        List<HomeDate> bannderData = HomeUtils.getBanrdData(parse);
+        banrdData = HomeUtils.getBanrdData(parse);
+        handler.sendEmptyMessage(2);
     }
 
     private void LoadBannerData(Document parse) {
@@ -109,6 +134,17 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             String src = bannerData.get(i).map.get("src");
             String url = bannerData.get(i).map.get("url");
         }*/
+    }
+
+
+    private void handleAllHotData() {
+        HomeContainerAdapter homeContainerAdapter = new HomeContainerAdapter(a,allHomeData);
+        pullToRelashLayout.getSupperRecyclerView().setAdapter(homeContainerAdapter);
+        toNormal();
+    }
+
+    private void handleBard() {
+
     }
 
     private void handleBanner() {
@@ -128,9 +164,19 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             View bannerIv = getBannerIv(src);
             bannerList.add(bannerIv);
         }
-        autoScrollViewPager.setAdapter(new SimplePagerAdapter<View>(bannerList));
+    //    autoScrollViewPager.setAdapter(new SimplePagerAdapter<View>(bannerList));
         pullToRelashLayout.getSupperRecyclerView().addHeader(autoScrollViewPager);
         pullToRelashLayout.setAdapter(new SimpleTestAdapter(a));
+        toNormal();
+    }
+
+    private void toNormal() {
+        if (bannerData != null && bannerData.size() > 0
+                && banrdData != null && banrdData.size() > 0
+                && allHomeData != null && allHomeData.size() > 0) {
+
+            switchToNormal();
+        }
     }
 
     private View getBannerIv(String src) {

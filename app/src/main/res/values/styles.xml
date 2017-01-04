@@ -26,4 +26,12 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textColor">@color/selector_main_fragment_item</item>
     </style>
+
+    <style name="iten_home_Tuiian">
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
 </resources>
