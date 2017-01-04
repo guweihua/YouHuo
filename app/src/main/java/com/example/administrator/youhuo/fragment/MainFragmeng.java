@@ -42,6 +42,13 @@ public class MainFragmeng extends BaseFragment implements View.OnClickListener {
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        initView(rootView);
+        initRadioButton();
+        initListener();
+        return rootView;
+    }
+
+    private void initView(View rootView) {
         fragmentGroup = (FrameLayout) rootView.findViewById(R.id.fragmentGroup);
         shouyeBtn = (RadioButton) rootView.findViewById(R.id.homeBtn);
         fenleiBtn = (RadioButton) rootView.findViewById(R.id.fenleiBtn);
@@ -49,9 +56,6 @@ public class MainFragmeng extends BaseFragment implements View.OnClickListener {
         gouwucheBtn = (RadioButton) rootView.findViewById(R.id.gouwucheBtn);
         woodeBtn = (RadioButton) rootView.findViewById(R.id.wodeBtn);
         rg = (RadioGroup) rootView.findViewById(R.id.rg);
-        initRadioButton();
-        initListener();
-        return rootView;
     }
 
     private void initRadioButton() {

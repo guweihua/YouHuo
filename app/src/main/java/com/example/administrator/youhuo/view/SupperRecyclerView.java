@@ -210,6 +210,7 @@ public class SupperRecyclerView extends RecyclerView {
                        && (getHeadsCount() > 0  || getFooterCount() > 0 )){
 
                    final HeadFooterAdapter adapter = (HeadFooterAdapter) getAdapter();
+                   final GridLayoutManager.SpanSizeLookup spanSizeLookup = ((GridLayoutManager) layout).getSpanSizeLookup();
                    ((GridLayoutManager) layout).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                        @Override
                        public int getSpanSize(int position) {
@@ -218,7 +219,10 @@ public class SupperRecyclerView extends RecyclerView {
                            if (itemViewType <= HEADTYPE || itemViewType >= FOOTERTYPE){
                                return ((GridLayoutManager) layout).getSpanCount();
                            }
-                           return 1;
+                           if (spanSizeLookup == null)
+                            return 1;
+                           else
+                               return spanSizeLookup.getSpanSize(position - heads.size());
                        }
                    });
                }

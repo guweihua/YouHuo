@@ -31,7 +31,9 @@ public class SimplePagerAdapter<T extends View> extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         T t = list.get(position);
-        container.addView(t);
+        if (container != null) {
+            container.addView(t);
+        }
         return t;
     }
 

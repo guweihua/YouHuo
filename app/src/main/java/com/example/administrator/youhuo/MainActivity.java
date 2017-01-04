@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         this.sliding = (MySlidePane) findViewById(R.id.sliding);
+        sliding.requestDisallowInterceptTouchEvent(true);
     }
 
     @Override

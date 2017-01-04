@@ -17,7 +17,7 @@ public abstract class BaseStausFragment extends BaseFragment implements StatusLa
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
-        statusLayout = (StatusLayout) View.inflate(a, R.layout.fragment_base_status, null);
+        statusLayout = (StatusLayout) inflater.inflate(R.layout.fragment_base_status, container,false);
         statusLayout.setOnErrorClickListener(this);
         initChildView();
         return statusLayout;

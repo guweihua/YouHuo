@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.example.administrator.youhuo.utils.StatusBarUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by Administrator on 2016/12/26.
  */
@@ -20,10 +22,20 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtils.setFullScreentStatus(this);
+       try {
+           EventBus.getDefault().register(this);
+       }catch (Exception e){
+
+       }
     }
 
     @Override
     protected void onDestroy() {
+        try {
+            EventBus.getDefault().unregister(this);
+        }catch (Exception e){
+
+        }
         super.onDestroy();
         delayHandler.removeCallbacksAndMessages(null);
     }
