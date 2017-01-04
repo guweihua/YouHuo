@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_choose"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/first_splash"
+    >
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/boyBtn"
+            style="@style/style_item_choose_activity"
+            android:button="@drawable/selector_choose_activity_boys" />
+
+        <RadioButton
+            android:id="@+id/girlBtn"
+            style="@style/style_item_choose_activity"
+            android:button="@drawable/selector_choose_activity_girls" />
+
+        <RadioButton
+            android:id="@+id/kidBtn"
+            style="@style/style_item_choose_activity"
+            android:button="@drawable/selector_choose_activity_kid" />
+
+        <RadioButton
+            android:id="@+id/lifeBtn"
+            style="@style/style_item_choose_activity"
+            android:layout_marginBottom="0dp"
+            android:button="@drawable/selector_choose_activity_lifes" />
+    </RadioGroup>
+</RelativeLayout>
+

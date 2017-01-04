@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_second_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/welcome" />
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="50dp"
+        android:background="@drawable/shape_second_spalsh_half_trasplate"
+        android:onClick="click"
+        android:text="跳转"
+        android:textColor="#fff" />
+
+    <View
+        android:id="@+id/mark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></View>
+</RelativeLayout>

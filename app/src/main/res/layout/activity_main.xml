@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.administrator.youhuo.view.MySlidePane
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingTop="@dimen/statusBarSize"
+    tools:context="com.example.administrator.youhuo.MainActivity">
+
+    <fragment
+        android:name="com.example.administrator.youhuo.fragment.MenuFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></fragment>
+
+    <fragment
+        android:name="com.example.administrator.youhuo.fragment.MainFragmeng"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></fragment>
+</com.example.administrator.youhuo.view.MySlidePane>
