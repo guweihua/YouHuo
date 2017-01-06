@@ -120,11 +120,11 @@ public class PullToRelashLayout extends RelativeLayout {
                 float rawY = ev.getRawY();
                 Point startPoint = new Point((int)startX,(int)startY);
                 Point endPoint = new Point((int)rawX,(int)rawY);
+                if(supperRecyclerView.getAdapter()!=null)
                 if (((isLoad && footerParams.bottomMargin != -footerView.getHeight())
                     || (isPull && headParams.topMargin != -headView.getHeight()))
                         ||(OrientationUtils.isVerticalScroll(startPoint,endPoint)
-                        && ((supperRecyclerView.getFirstVisibleChildPosition() == 0
-                        && rawY - startY > 0 )
+                        && ((supperRecyclerView.getFirstVisibleChildPosition() == 0 && rawY - startY > 0 )
                         || (supperRecyclerView.getLastVisibleChildPosition()
                                     == supperRecyclerView.getAdapter().getItemCount() - 1
                         && rawY - startY < 0 )))){
@@ -244,6 +244,7 @@ public class PullToRelashLayout extends RelativeLayout {
 
     private void initFooter() {
         footerView = new ImageView(getContext());
+        footerView.setOverScrollMode(OVER_SCROLL_NEVER);
         footerParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) dimension);
         footerView.setId(R.id.footer);
         footerParams.addRule(CENTER_HORIZONTAL);
@@ -256,6 +257,7 @@ public class PullToRelashLayout extends RelativeLayout {
 
     private void initHead() {
         headView = new ImageView(getContext());
+        headView.setOverScrollMode(OVER_SCROLL_NEVER);
         headParams = new LayoutParams(LayoutParams.WRAP_CONTENT, (int) dimension);
         headView.setId(R.id.header);
         headParams.addRule(CENTER_HORIZONTAL);

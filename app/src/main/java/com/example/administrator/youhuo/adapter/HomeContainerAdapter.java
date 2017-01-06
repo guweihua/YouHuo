@@ -18,7 +18,9 @@ import com.example.administrator.youhuo.utils.DimenUtils;
 import com.example.administrator.youhuo.view.GralleyPager;
 import com.example.administrator.youhuo.view.SupperRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/1/4.
@@ -81,15 +83,46 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
     }
 
     private void handleTuiJian(RecyclerView.ViewHolder holder, int position) {
-
+        TuiJianHolder tuiJianHolder = (TuiJianHolder) holder;
+        HomeDate homeDate = list.get(position);
+        Map<String, String> map = homeDate.map;
+        ((TuiJianHolder)holder).tv.setText(map.get("title"+""));
+        Glide.with(ctx).load(map.get("src1")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv1);
+        Glide.with(ctx).load(map.get("src2")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv2);
+        Glide.with(ctx).load(map.get("src3")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv3);
+        Glide.with(ctx).load(map.get("src4")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv4);
+        Glide.with(ctx).load(map.get("src5")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv5);
+        Glide.with(ctx).load(map.get("src6")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv6);
     }
 
     private void handleHaoDian(RecyclerView.ViewHolder holder, int position) {
+        GralleyPager pager = (GralleyPager) holder.itemView;
+        if (pager.getAdapter() == null){
+            HomeDate homeDate = list.get(position);
+            Map<String, String> map = homeDate.map;
+            List<View> viewList = new ArrayList<>();
+            for (int i = 0; i < map.size(); i++) {
+                View iv = getIv(map.get("src" + (i + 1)));
+                viewList.add(iv);
+            }
+            pager.setAdapter(new HomeHaoDianAdapter(viewList));
+            pager.setCurrentItem(100 * map.size());
+        }
+    }
 
+    private View getIv(String s) {
+        ImageView iv = new ImageView(ctx);
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(ctx).load(s).error(R.mipmap.tt_default_message_error_image).into(iv);
+        return iv;
     }
 
     private void handleHot(RecyclerView.ViewHolder holder, int position) {
-
+        SupperRecyclerView pager = (SupperRecyclerView) holder.itemView;
+        if (pager.getAdapter() == null){
+            HomeDate homeDate = list.get(position);
+            pager.setAdapter(new HomeGarllyAdapter(homeDate.map,ctx));
+        }
     }
 
     private void handleOneWeb(RecyclerView.ViewHolder holder, int position) {

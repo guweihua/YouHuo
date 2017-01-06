@@ -77,21 +77,35 @@ public class StatusLayout extends FrameLayout implements View.OnClickListener {
     }
 
     public void switchToNormal(){
+        errorView.setVisibility(GONE);
+        loadView.setVisibility(GONE);
+        normalView.setVisibility(VISIBLE);
         loadDrawable.stop();
         removeView(normalView);
-        addView(normalView);
+        addView(normalView,getChildCount());
     }
     public void switchToError(){
+        errorView.setVisibility(VISIBLE);
+        normalView.setVisibility(GONE);
+        loadView.setVisibility(GONE);
         loadDrawable.stop();
         removeView(errorView);
-        addView(errorView);
+        addView(errorView,getChildCount());
     }
 
     public void switchToLoad(){
+        errorView.setVisibility(GONE);
+        normalView.setVisibility(GONE);
+        loadView.setVisibility(VISIBLE);
         loadDrawable.stop();
         removeView(loadView);
-        addView(loadIv);
-        loadDrawable.start();
+        addView(loadView,getChildCount());
+        post(new Runnable() {
+            @Override
+            public void run() {
+                loadDrawable.start();
+            }
+        });
     }
 
     public interface OnErrorClickListener {

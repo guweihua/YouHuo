@@ -20,6 +20,9 @@ import com.example.administrator.youhuo.R;
 import com.example.administrator.youhuo.adapter.HomeContainerAdapter;
 import com.example.administrator.youhuo.adapter.SimplePagerAdapter;
 import com.example.administrator.youhuo.adapter.SimpleTestAdapter;
+import com.example.administrator.youhuo.base.BaseView;
+import com.example.administrator.youhuo.base.HomeCateView;
+import com.example.administrator.youhuo.event.HomeBrandEvent;
 import com.example.administrator.youhuo.model.HomeDate;
 import com.example.administrator.youhuo.utils.DimenUtils;
 import com.example.administrator.youhuo.utils.HomeUtils;
@@ -29,6 +32,7 @@ import com.example.administrator.youhuo.view.SuperViewPager;
 import com.example.administrator.youhuo.view.SupperRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -130,10 +134,6 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     private void LoadBannerData(Document parse) {
         bannerData = HomeUtils.getBannerData(parse);
         handler.sendEmptyMessage(1);
-        /*for (int i = 0; i < bannerData.size(); i++) {
-            String src = bannerData.get(i).map.get("src");
-            String url = bannerData.get(i).map.get("url");
-        }*/
     }
 
 
@@ -144,7 +144,11 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     }
 
     private void handleBard() {
-
+        BaseView baseView = new HomeCateView(a).bindData(banrdData).bindAdapter();
+        View root = baseView.root;
+        root.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        pullToRelashLayout.getSupperRecyclerView().addHeader(root);
+        toNormal();
     }
 
     private void handleBanner() {
@@ -207,5 +211,10 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     @Override
     public void onItenClick(ViewPager pager, View view, int position) {
         toast(position + "");
+    }
+
+    @Subscribe
+    public void onBrandClick(HomeBrandEvent event) {
+        toast(event.title);
     }
 }
