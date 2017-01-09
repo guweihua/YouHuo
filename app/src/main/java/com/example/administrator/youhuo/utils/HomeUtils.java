@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class HomeUtils {
 
-    public static List<HomeDate> getAllHomeData(Document document){
+    public static List<HomeDate> getAllHomeData(Document document) {
         List<HomeDate> list = new ArrayList<>();
         Element one1 = document.getElementsByAttributeValue("data-id", "37473").get(0);
         Element one2 = document.getElementsByAttributeValue("data-id", "36611").get(0);
@@ -55,19 +55,19 @@ public class HomeUtils {
         return new HomeDate(HomeModel.ONEWEB, map);
     }
 
-    public static List<HomeDate> getBannerData(Document document){
+    public static List<HomeDate> getBannerData(Document document) {
         Element element = document.getElementsByClass("swiper-wrapper").get(0);
         Elements children = element.children();
         List<HomeDate> list = new ArrayList<>();
         for (int i = 0; i < children.size(); i++) {
-            Map<String,String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>();
             String src = "src";
-            if (i != 0){
+            if (i != 0) {
                 src = "data-src";
             }
-            map.put("src",children.get(i).getElementsByTag("img").get(0).attr(src));
-            map.put("url",children.get(i).getElementsByTag("a").get(0).attr("href"));
-            HomeDate homeDate = new HomeDate(-1,map);
+            map.put("src", children.get(i).getElementsByTag("img").get(0).attr(src));
+            map.put("url", children.get(i).getElementsByTag("a").get(0).attr("href"));
+            HomeDate homeDate = new HomeDate(-1, map);
             list.add(homeDate);
         }
         return list;
@@ -79,7 +79,7 @@ public class HomeUtils {
         Elements children = element.children();
         List<HomeDate> list = new ArrayList<>();
         for (Element e : children) {
-    //        LogUtils.log("tag1", e.html());
+            //        LogUtils.log("tag1", e.html());
             String src = e.children().get(0).children().get(0).attr("src");
             String linkbar = e.children().get(1).text();
             Map<String, String> map = new HashMap<>();
@@ -106,7 +106,7 @@ public class HomeUtils {
                 for (int i = 0; i < brands.length(); i++) {
                     JSONObject jsonObject = brands.getJSONObject(i);
                     String imgpath = HttpModel.IMG + jsonObject.getString("imgpath");
-                    map.put("src" + i, imgpath);
+                    map.put("src" + (i + 1), imgpath);
 //                    Logger.e(imgpath);
                 }
             }
@@ -130,7 +130,7 @@ public class HomeUtils {
                 for (int i = 0; i < jsonArray.length() * 2; i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i % jsonArray.length());
                     String imgpath = jsonObject.getString("imgpath");
-                    map.put("src" + i, imgpath);
+                    map.put("src" + (i + 1), HttpModel.IMG + imgpath);
                 }
             }
         } catch (Exception e) {
@@ -156,7 +156,7 @@ public class HomeUtils {
                     JSONArray categorydatas = jsonObject.getJSONArray("categorydatas");
                     for (int j = 0; j < categorydatas.length(); j++) {
                         JSONObject jsonObject1 = categorydatas.getJSONObject(j);
-                        map.put("src" + j, jsonObject1.getString("imgpath"));
+                        map.put("src" + (j+1), HttpModel.IMG +jsonObject1.getString("imgpath"));
                         map.put("shopid" + j, jsonObject1.getString("shopid"));
                     }
                     HomeDate homeDate = new HomeDate(HomeModel.TUIJIAN, map);

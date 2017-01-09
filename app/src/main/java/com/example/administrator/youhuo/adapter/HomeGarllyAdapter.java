@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.youhuo.R;
+import com.example.administrator.youhuo.utils.DimenUtils;
 
 import java.util.Map;
 
@@ -35,6 +36,9 @@ public class HomeGarllyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ImageView iv = (ImageView) holder.itemView;
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        iv.setLayoutParams(new RecyclerView.LayoutParams(DimenUtils.dp2px(300),RecyclerView.LayoutParams.MATCH_PARENT));
+
         String s = map.get("src" + (position + 1));
         Glide.with(ctx).load(s).error(R.mipmap.tt_default_message_error_image).into(iv);
     }

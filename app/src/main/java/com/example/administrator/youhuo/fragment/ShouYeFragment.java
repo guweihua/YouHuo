@@ -24,6 +24,7 @@ import com.example.administrator.youhuo.base.BaseView;
 import com.example.administrator.youhuo.base.HomeCateView;
 import com.example.administrator.youhuo.event.HomeBrandEvent;
 import com.example.administrator.youhuo.model.HomeDate;
+import com.example.administrator.youhuo.model.HomeModel;
 import com.example.administrator.youhuo.utils.DimenUtils;
 import com.example.administrator.youhuo.utils.HomeUtils;
 import com.example.administrator.youhuo.view.GralleyPager;
@@ -41,7 +42,9 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/12/27.
@@ -71,7 +74,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             }
         }
     };
-
+    private HomeContainerAdapter homeContainerAdapter;
 
 
     @Override
@@ -135,14 +138,33 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     }
 
     private void LoadBannerData(Document parse) {
-        bannerData = HomeUtils.getBannerData(parse);
+        HomeDate haoDian = HomeUtils.getHaoDian();
+        List<HomeDate> list = new ArrayList<>();
+        Map<String, String> map = haoDian.map;
+        for (int i = 0; i < map.size(); i++) {
+            Map map1 = new HashMap();
+            map1.put("src", map.get("src" + (i + 1)));
+            list.add(new HomeDate(0,map1));
+        }
+        bannerData = list;
         handler.sendEmptyMessage(1);
     }
 
 
     private void handleAllHotData() {
-        HomeContainerAdapter homeContainerAdapter = new HomeContainerAdapter(a,allHomeData);
+        homeContainerAdapter = new HomeContainerAdapter(a,allHomeData);
         pullToRelashLayout.getSupperRecyclerView().setAdapter(homeContainerAdapter);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(a,2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int itemViewType = homeContainerAdapter.getItemViewType(position);
+                if (itemViewType == HomeModel.NORMAL)
+                    return 1;
+                return gridLayoutManager.getSpanCount();
+            }
+        });
+        pullToRelashLayout.getSupperRecyclerView().setLayoutManager(gridLayoutManager);
         toNormal();
     }
 
@@ -172,8 +194,9 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             bannerList.add(bannerIv);
         }
     //    autoScrollViewPager.setAdapter(new SimplePagerAdapter<View>(bannerList));
+        autoScrollViewPager.setAdapter(new SimplePagerAdapter<View>(bannerList));
         pullToRelashLayout.getSupperRecyclerView().addHeader(autoScrollViewPager);
-        pullToRelashLayout.setAdapter(new SimpleTestAdapter(a));
+
         toNormal();
     }
 
@@ -187,8 +210,8 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     }
 
     private View getBannerIv(String src) {
-        src = src.substring(0, src.lastIndexOf("?"));
-        src = "http:" + src;
+       /* src = src.substring(0, src.lastIndexOf("?"));
+        src = "http:" + src;*/
         ImageView iv = new ImageView(a);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide.with(a).load(src).error(R.mipmap.tt_default_message_error_image).placeholder(R.drawable.load).into(iv);
@@ -198,6 +221,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     @Override
     public void onReload() {
         switchToLoad();
+        initData();
     }
 
     @Override

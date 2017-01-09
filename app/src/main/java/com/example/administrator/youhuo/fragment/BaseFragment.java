@@ -36,9 +36,9 @@ public abstract class BaseFragment extends Fragment {
         return rootView;
     }
 
-    protected  void initAdapter(){};
+    protected  void initAdapter(){}
 
-    protected  void initData(){};
+    protected  void initData(){}
 
     protected abstract View initView(LayoutInflater inflater, ViewGroup container);
 

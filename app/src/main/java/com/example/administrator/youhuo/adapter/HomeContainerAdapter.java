@@ -39,25 +39,32 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HomeModel.ONEWEB){
-            return new RecyclerView.ViewHolder(new ImageView(ctx)) {
+            ImageView imageView = new ImageView(ctx);
+            RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
+            params.bottomMargin=DimenUtils.dp2px(5);
+            imageView.setLayoutParams(params);
+            return new RecyclerView.ViewHolder(imageView) {
             };
         }else if (viewType == HomeModel.HOTECATORY){
             SupperRecyclerView supperRecyclerView = new SupperRecyclerView(ctx);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ctx,LinearLayoutManager.HORIZONTAL,false);
             supperRecyclerView.setLayoutManager(linearLayoutManager);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
+            params.bottomMargin=DimenUtils.dp2px(5);
             supperRecyclerView.setLayoutParams(params);
             return new RecyclerView.ViewHolder(supperRecyclerView) {
             };
         }else if (viewType == HomeModel.HAODIAN){
             GralleyPager gralleyPager = new GralleyPager(ctx);
             RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(200));
+            params.bottomMargin=DimenUtils.dp2px(5);
             gralleyPager.setLayoutParams(params);
           return new RecyclerView.ViewHolder(gralleyPager) {
           };
         }else if (viewType == HomeModel.TUIJIAN){
             View inflate = View.inflate(ctx, R.layout.item_home_tuijian, null);
-            RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(300));
+            RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(350));
+            params.bottomMargin=DimenUtils.dp2px(5);
             inflate.setLayoutParams(params);
             return new TuiJianHolder(inflate);
         }
