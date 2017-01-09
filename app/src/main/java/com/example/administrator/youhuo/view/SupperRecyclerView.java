@@ -183,7 +183,7 @@ public class SupperRecyclerView extends RecyclerView {
              }else if (position < heads.size() + rawAdapter.getItemCount()){
                  return rawAdapter.getItemViewType(position - heads.size());
              }
-             return FOOTERTYPE + (position - heads.size()) - rawAdapter.getItemCount();
+             return FOOTERTYPE + (position - heads.size() - rawAdapter.getItemCount());
          }
 
          @Override

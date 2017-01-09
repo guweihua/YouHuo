@@ -49,7 +49,7 @@ import java.util.List;
 
 public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.OnItemClickListener {
 
-    private PullToRelashLayout pullToRelashLayout;
+
 
     Handler handler = new Handler() {
         @Override
@@ -71,8 +71,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             }
         }
     };
-    private List<HomeDate> banrdData;
-    private List<HomeDate> allHomeData;
+
 
 
     @Override
@@ -87,10 +86,13 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
         EventBus.getDefault().unregister(this);
     }
 
+    private PullToRelashLayout pullToRelashLayout;
     private Thread thread;
     private SuperViewPager autoScrollViewPager;
     private List<View> bannerList;
     private List<HomeDate> bannerData;
+    private List<HomeDate> banrdData;
+    private List<HomeDate> allHomeData;
 
     @Override
     protected void initChildView() {
@@ -102,6 +104,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     @Override
     protected void initData() {
         super.initData();
+        switchToLoad();
         thread = new Thread() {
             @Override
             public void run() {

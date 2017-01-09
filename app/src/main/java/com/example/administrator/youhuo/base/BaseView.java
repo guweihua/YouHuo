@@ -27,7 +27,7 @@ public abstract class BaseView {
     }
 
 
-    protected abstract void initListener();
+    public void initListener(){}
 
     protected abstract void initView();
 

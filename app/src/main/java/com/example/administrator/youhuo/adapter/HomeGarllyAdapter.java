@@ -20,6 +20,7 @@ public class HomeGarllyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     Map<String,String> map;
     Context ctx;
+
     public HomeGarllyAdapter(Map<String, String> map,Context ctx) {
         this.map = map;
         this.ctx=ctx;
@@ -34,7 +35,7 @@ public class HomeGarllyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ImageView iv = (ImageView) holder.itemView;
-        String s = map.get("src" + position + 1);
+        String s = map.get("src" + (position + 1));
         Glide.with(ctx).load(s).error(R.mipmap.tt_default_message_error_image).into(iv);
     }
 

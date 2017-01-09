@@ -18,7 +18,9 @@ import java.util.List;
  */
 
 public class HomeBarndAdapter extends SimpleRecyclerAdapter {
+
     List<HomeDate> list;
+
     public HomeBarndAdapter(Context ctx, List list) {
         super(ctx, list);
         this.list = list;
@@ -31,18 +33,19 @@ public class HomeBarndAdapter extends SimpleRecyclerAdapter {
         String src = homeDate.map.get("src");
         String title = homeDate.map.get("title");
         myViewHolder.tv.setText(title);
-        Glide.with(ctx).load("http:"+src).error(R.mipmap.tt_default_message_error_image).into(myViewHolder.iv);
+        Glide.with(ctx).load("http:" + src).error(R.mipmap.tt_default_message_error_image).into(myViewHolder.iv);
         super.onBindViewHolder(holder, position);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(View.inflate(ctx, R.layout.item_home_barnd,null));
+        return new MyViewHolder(View.inflate(ctx, R.layout.item_home_barnd, null));
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView iv;
         TextView tv;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             iv = (ImageView) itemView.findViewById(R.id.iv);

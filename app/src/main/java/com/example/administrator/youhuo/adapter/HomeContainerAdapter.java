@@ -1,6 +1,7 @@
 package com.example.administrator.youhuo.adapter;
 
 import android.content.Context;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,6 +33,7 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
     List<HomeDate> list;
     public HomeContainerAdapter(Context ctx, List list) {
         super(ctx, list);
+        this.list= list;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
             SupperRecyclerView supperRecyclerView = new SupperRecyclerView(ctx);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ctx,LinearLayoutManager.HORIZONTAL,false);
             supperRecyclerView.setLayoutManager(linearLayoutManager);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
             supperRecyclerView.setLayoutParams(params);
             return new RecyclerView.ViewHolder(supperRecyclerView) {
             };
@@ -83,10 +85,10 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
     }
 
     private void handleTuiJian(RecyclerView.ViewHolder holder, int position) {
-        TuiJianHolder tuiJianHolder = (TuiJianHolder) holder;
+    //    TuiJianHolder tuiJianHolder = (TuiJianHolder) holder;
         HomeDate homeDate = list.get(position);
         Map<String, String> map = homeDate.map;
-        ((TuiJianHolder)holder).tv.setText(map.get("title"+""));
+        ((TuiJianHolder)holder).tv.setText(map.get("title")+"");
         Glide.with(ctx).load(map.get("src1")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv1);
         Glide.with(ctx).load(map.get("src2")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv2);
         Glide.with(ctx).load(map.get("src3")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv3);
@@ -130,6 +132,12 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
         HomeDate homeDate = list.get(position);
         String src = homeDate.map.get("src");
         Glide.with(ctx).load("http:"+src).error(R.mipmap.tt_default_message_error_image).into(imageView);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        HomeDate homeDate = list.get(position);
+        return homeDate.type;
     }
 
     class TuiJianHolder extends RecyclerView.ViewHolder {

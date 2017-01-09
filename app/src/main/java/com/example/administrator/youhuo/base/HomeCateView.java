@@ -28,7 +28,8 @@ public class HomeCateView extends BaseView implements SupperRecyclerView.OnItemC
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
+        super.initListener();
         supperRecyclerView.setOnItemClickListener(this);
     }
 

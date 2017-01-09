@@ -1,5 +1,6 @@
 package com.example.administrator.youhuo.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.List;
  */
 
 public class HomeHaoDianAdapter extends SimplePagerAdapter {
-    public HomeHaoDianAdapter(List list) {
+
+    public HomeHaoDianAdapter(List<View> list) {
         super(list);
     }
 
