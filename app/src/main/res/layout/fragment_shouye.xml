@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#fff"
@@ -7,15 +7,12 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="vertical">
+        android:layout_height="?actionBarSize">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="我是导航" />
+        <include layout="@layout/layout_toolbar_shouye"></include>
     </LinearLayout>
 
     <com.example.administrator.youhuo.view.PullToRelashLayout
@@ -23,4 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.example.administrator.youhuo.view.PullToRelashLayout>
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/upIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:src="@drawable/tabbar_see_highlighted_red"
+        android:visibility="gone" />
+</RelativeLayout>

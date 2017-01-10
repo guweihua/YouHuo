@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,6 +30,8 @@ import com.example.administrator.youhuo.model.HttpModel;
 import com.example.administrator.youhuo.server.HomeBrandService;
 import com.example.administrator.youhuo.utils.DimenUtils;
 import com.example.administrator.youhuo.utils.HomeUtils;
+import com.example.administrator.youhuo.utils.LogUtils;
+import com.example.administrator.youhuo.view.GralleyPager;
 import com.example.administrator.youhuo.view.PullToRelashLayout;
 import com.example.administrator.youhuo.view.SuperViewPager;
 
@@ -56,7 +59,7 @@ import retrofit2.Response;
  * Created by admin on 2016/12/27.
  */
 
-public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.OnItemClickListener, PullToRelashLayout.OnPullToRefreshListener {
+public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.OnItemClickListener, PullToRelashLayout.OnPullToRefreshListener, View.OnClickListener {
 
 
 
@@ -81,6 +84,8 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
         }
     };
     private HomeContainerAdapter homeContainerAdapter;
+    private GridLayoutManager gridLayoutManager;
+    private ImageView upView;
 
 
     @Override
@@ -107,6 +112,21 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     protected void initChildView() {
         ViewGroup root = (ViewGroup) View.inflate(a, R.layout.fragment_shouye, null);
         pullToRelashLayout = (PullToRelashLayout) root.findViewById(R.id.relash);
+        upView = (ImageView) root.findViewById(R.id.upIv);
+        upView.setOnClickListener(this);
+        pullToRelashLayout.getSupperRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int topPosition = gridLayoutManager.findFirstVisibleItemPosition();
+                LogUtils.log("tag",topPosition+"");
+                if (topPosition > 5){
+                    upView.setVisibility(View.VISIBLE);
+                }else {
+                    upView.setVisibility(View.GONE);
+                }
+            }
+        });
         setContentView(root);
     }
 
@@ -160,7 +180,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     private void handleAllHotData() {
         homeContainerAdapter = new HomeContainerAdapter(a,allHomeData);
     //
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(a,2);
+        gridLayoutManager = new GridLayoutManager(a,2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -335,5 +355,15 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     @Subscribe
     public void OnNormalItemClick(NormalEvent event){
         toast(event.normal+"");
+    }
+
+    @Override
+    public void onClick(View v) {
+        //回到第一个位置
+        ScrollToFirstPosition();
+    }
+
+    private void ScrollToFirstPosition() {
+        pullToRelashLayout.getSupperRecyclerView().smoothScrollToPosition(0);
     }
 }
