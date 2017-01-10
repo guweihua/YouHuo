@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Administrator on 2016/12/29.
  */
 
-public class GralleyPager extends ViewPager {
+public class GralleyPager extends SuperViewPager {
 
     public GralleyPager(Context context) {
         super(context);

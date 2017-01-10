@@ -17,7 +17,12 @@ import com.example.administrator.youhuo.adapter.HomeContainerAdapter;
 import com.example.administrator.youhuo.adapter.SimplePagerAdapter;
 import com.example.administrator.youhuo.base.BaseView;
 import com.example.administrator.youhuo.base.HomeCateView;
+import com.example.administrator.youhuo.event.HaoDianEvent;
 import com.example.administrator.youhuo.event.HomeBrandEvent;
+import com.example.administrator.youhuo.event.HotEcatoryEvent;
+import com.example.administrator.youhuo.event.NormalEvent;
+import com.example.administrator.youhuo.event.OneWebEvent;
+import com.example.administrator.youhuo.event.TuiJianEvent;
 import com.example.administrator.youhuo.model.HomeDate;
 import com.example.administrator.youhuo.model.HomeModel;
 import com.example.administrator.youhuo.model.HttpModel;
@@ -306,5 +311,29 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
 
            }
        });
+    }
+
+    @Subscribe
+    public void OnOneWebClick(OneWebEvent event){
+        toast(event.url+"");
+    }
+
+    @Subscribe
+    public void OnHotItemClick(HotEcatoryEvent event){
+        toast(event.src+"");
+    }
+
+    @Subscribe
+    public void OnHaoDianItemClick(HaoDianEvent event){
+        toast(event.str+"");
+    }
+    @Subscribe
+    public void OnTuiJianItemClick(TuiJianEvent event){
+        toast(event.con+"");
+    }
+
+    @Subscribe
+    public void OnNormalItemClick(NormalEvent event){
+        toast(event.normal+"");
     }
 }
