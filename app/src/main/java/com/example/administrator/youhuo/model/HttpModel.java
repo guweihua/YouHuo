@@ -48,7 +48,7 @@ public class HttpModel {
     /**
      * 商品列表的访问地址
      **/
-    public static final String BRAND_VALUE = "http://123.206.47.205:8080/yoho/brandvalue";
+    public static final String BRAND_VALUE = "brandvalue";
     /**
      * 商品详情访问的路径
      */

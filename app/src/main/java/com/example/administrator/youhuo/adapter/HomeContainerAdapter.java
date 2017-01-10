@@ -31,42 +31,48 @@ import java.util.Map;
 public class HomeContainerAdapter extends SimpleRecyclerAdapter {
 
     List<HomeDate> list;
+
     public HomeContainerAdapter(Context ctx, List list) {
         super(ctx, list);
-        this.list= list;
+        this.list = list;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == HomeModel.ONEWEB){
+        if (viewType == HomeModel.ONEWEB) {
             ImageView imageView = new ImageView(ctx);
-            RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
-            params.bottomMargin=DimenUtils.dp2px(5);
+            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
+            params.bottomMargin = DimenUtils.dp2px(5);
             imageView.setLayoutParams(params);
             return new RecyclerView.ViewHolder(imageView) {
             };
-        }else if (viewType == HomeModel.HOTECATORY){
+        } else if (viewType == HomeModel.HOTECATORY) {
             SupperRecyclerView supperRecyclerView = new SupperRecyclerView(ctx);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ctx,LinearLayoutManager.HORIZONTAL,false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false);
             supperRecyclerView.setLayoutManager(linearLayoutManager);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(150));
-            params.bottomMargin=DimenUtils.dp2px(5);
+            params.bottomMargin = DimenUtils.dp2px(5);
             supperRecyclerView.setLayoutParams(params);
             return new RecyclerView.ViewHolder(supperRecyclerView) {
             };
-        }else if (viewType == HomeModel.HAODIAN){
+        } else if (viewType == HomeModel.HAODIAN) {
             GralleyPager gralleyPager = new GralleyPager(ctx);
-            RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(200));
-            params.bottomMargin=DimenUtils.dp2px(5);
+            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(200));
+            params.bottomMargin = DimenUtils.dp2px(5);
             gralleyPager.setLayoutParams(params);
-          return new RecyclerView.ViewHolder(gralleyPager) {
-          };
-        }else if (viewType == HomeModel.TUIJIAN){
+            return new RecyclerView.ViewHolder(gralleyPager) {
+            };
+        } else if (viewType == HomeModel.TUIJIAN) {
             View inflate = View.inflate(ctx, R.layout.item_home_tuijian, null);
-            RecyclerView.LayoutParams params=new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(350));
-            params.bottomMargin=DimenUtils.dp2px(5);
+            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(350));
+            params.bottomMargin = DimenUtils.dp2px(5);
             inflate.setLayoutParams(params);
             return new TuiJianHolder(inflate);
+        } else if (viewType == HomeModel.NORMAL) {
+            View inflate = View.inflate(ctx, R.layout.item_home_normal, null);
+            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+            inflate.setLayoutParams(params);
+            return new NormalHolder(inflate);
         }
         return super.onCreateViewHolder(parent, viewType);
     }
@@ -77,25 +83,42 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
         int itemViewType = getItemViewType(position);
         switch (itemViewType) {
             case HomeModel.ONEWEB:
-                handleOneWeb(holder,position);
+                handleOneWeb(holder, position);
                 break;
             case HomeModel.HOTECATORY:
-                handleHot(holder,position);
+                handleHot(holder, position);
                 break;
             case HomeModel.HAODIAN:
-                handleHaoDian(holder,position);
+                handleHaoDian(holder, position);
                 break;
             case HomeModel.TUIJIAN:
-                handleTuiJian(holder,position);
+                handleTuiJian(holder, position);
+                break;
+            case HomeModel.NORMAL:
+                handleNormal(holder, position);
                 break;
         }
     }
 
-    private void handleTuiJian(RecyclerView.ViewHolder holder, int position) {
-    //    TuiJianHolder tuiJianHolder = (TuiJianHolder) holder;
+    private void handleNormal(RecyclerView.ViewHolder holder, int position) {
+        NormalHolder normalHolder = (NormalHolder) holder;
         HomeDate homeDate = list.get(position);
         Map<String, String> map = homeDate.map;
-        ((TuiJianHolder)holder).tv.setText(map.get("title")+"");
+        String src = map.get("src");
+        Glide.with(ctx).load(src).error(R.mipmap.tt_default_message_error_image).override(200, 200).into(normalHolder.iv);
+        String title = map.get("title");
+        String price = map.get("price");
+        String dis = map.get("dis");
+        ((NormalHolder) holder).tv.setText(title);
+        ((NormalHolder) holder).priceTv.setText("￥" + price);
+        ((NormalHolder) holder).distv.setText(dis);
+    }
+
+    private void handleTuiJian(RecyclerView.ViewHolder holder, int position) {
+        //    TuiJianHolder tuiJianHolder = (TuiJianHolder) holder;
+        HomeDate homeDate = list.get(position);
+        Map<String, String> map = homeDate.map;
+        ((TuiJianHolder) holder).tv.setText(map.get("title") + "");
         Glide.with(ctx).load(map.get("src1")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv1);
         Glide.with(ctx).load(map.get("src2")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv2);
         Glide.with(ctx).load(map.get("src3")).error(R.mipmap.tt_default_message_error_image).into(((TuiJianHolder) holder).iv3);
@@ -106,7 +129,7 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
 
     private void handleHaoDian(RecyclerView.ViewHolder holder, int position) {
         GralleyPager pager = (GralleyPager) holder.itemView;
-        if (pager.getAdapter() == null){
+        if (pager.getAdapter() == null) {
             HomeDate homeDate = list.get(position);
             Map<String, String> map = homeDate.map;
             List<View> viewList = new ArrayList<>();
@@ -128,17 +151,17 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
 
     private void handleHot(RecyclerView.ViewHolder holder, int position) {
         SupperRecyclerView pager = (SupperRecyclerView) holder.itemView;
-        if (pager.getAdapter() == null){
+        if (pager.getAdapter() == null) {
             HomeDate homeDate = list.get(position);
-            pager.setAdapter(new HomeGarllyAdapter(homeDate.map,ctx));
+            pager.setAdapter(new HomeGarllyAdapter(homeDate.map, ctx));
         }
     }
 
     private void handleOneWeb(RecyclerView.ViewHolder holder, int position) {
-        ImageView imageView = (ImageView) holder.itemView;
+        ImageView iv = (ImageView) holder.itemView;
         HomeDate homeDate = list.get(position);
         String src = homeDate.map.get("src");
-        Glide.with(ctx).load("http:"+src).error(R.mipmap.tt_default_message_error_image).into(imageView);
+        Glide.with(ctx).load("http:" + src).error(R.mipmap.tt_default_message_error_image).into(iv);
     }
 
     @Override
@@ -165,6 +188,21 @@ public class HomeContainerAdapter extends SimpleRecyclerAdapter {
             iv4 = (ImageView) itemView.findViewById(R.id.TuiJianIv4);
             iv5 = (ImageView) itemView.findViewById(R.id.TuiJianIv5);
             iv6 = (ImageView) itemView.findViewById(R.id.TuiJianIv6);
+        }
+    }
+
+    private class NormalHolder extends RecyclerView.ViewHolder {
+        ImageView iv;
+        TextView tv;
+        TextView priceTv;
+        TextView distv;
+
+        public NormalHolder(View inflate) {
+            super(inflate);
+            iv = (ImageView) inflate.findViewById(R.id.iv);
+            tv = (TextView) inflate.findViewById(R.id.tv);
+            priceTv = (TextView) inflate.findViewById(R.id.priceTv);
+            distv = (TextView) inflate.findViewById(R.id.disTv);
         }
     }
 }

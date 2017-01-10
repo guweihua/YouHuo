@@ -88,16 +88,17 @@ public class StatusLayout extends FrameLayout implements View.OnClickListener {
         errorView.setVisibility(VISIBLE);
         normalView.setVisibility(GONE);
         loadView.setVisibility(GONE);
-        loadDrawable.stop();
+
         removeView(errorView);
         addView(errorView,getChildCount());
+        loadDrawable.stop();
     }
 
     public void switchToLoad(){
         errorView.setVisibility(GONE);
         normalView.setVisibility(GONE);
         loadView.setVisibility(VISIBLE);
-        loadDrawable.stop();
+    //    loadDrawable.stop();
         removeView(loadView);
         addView(loadView,getChildCount());
         post(new Runnable() {

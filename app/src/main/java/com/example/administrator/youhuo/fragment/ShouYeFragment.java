@@ -6,51 +6,52 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.administrator.youhuo.MyApplication;
 import com.example.administrator.youhuo.R;
 import com.example.administrator.youhuo.adapter.HomeContainerAdapter;
 import com.example.administrator.youhuo.adapter.SimplePagerAdapter;
-import com.example.administrator.youhuo.adapter.SimpleTestAdapter;
 import com.example.administrator.youhuo.base.BaseView;
 import com.example.administrator.youhuo.base.HomeCateView;
 import com.example.administrator.youhuo.event.HomeBrandEvent;
 import com.example.administrator.youhuo.model.HomeDate;
 import com.example.administrator.youhuo.model.HomeModel;
+import com.example.administrator.youhuo.model.HttpModel;
+import com.example.administrator.youhuo.server.HomeBrandService;
 import com.example.administrator.youhuo.utils.DimenUtils;
 import com.example.administrator.youhuo.utils.HomeUtils;
-import com.example.administrator.youhuo.view.GralleyPager;
 import com.example.administrator.youhuo.view.PullToRelashLayout;
 import com.example.administrator.youhuo.view.SuperViewPager;
-import com.example.administrator.youhuo.view.SupperRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by admin on 2016/12/27.
  */
 
-public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.OnItemClickListener {
+public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.OnItemClickListener, PullToRelashLayout.OnPullToRefreshListener {
 
 
 
@@ -153,7 +154,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
 
     private void handleAllHotData() {
         homeContainerAdapter = new HomeContainerAdapter(a,allHomeData);
-        pullToRelashLayout.getSupperRecyclerView().setAdapter(homeContainerAdapter);
+    //
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(a,2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -165,13 +166,15 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             }
         });
         pullToRelashLayout.getSupperRecyclerView().setLayoutManager(gridLayoutManager);
+        pullToRelashLayout.getSupperRecyclerView().setAdapter(homeContainerAdapter);
         toNormal();
     }
 
+    //全部分类
     private void handleBard() {
         BaseView baseView = new HomeCateView(a).bindData(banrdData).bindAdapter();
         View root = baseView.root;
-        root.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        root.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DimenUtils.dp2px(180)));
         pullToRelashLayout.getSupperRecyclerView().addHeader(root);
         toNormal();
     }
@@ -193,7 +196,9 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             View bannerIv = getBannerIv(src);
             bannerList.add(bannerIv);
         }
-    //    autoScrollViewPager.setAdapter(new SimplePagerAdapter<View>(bannerList));
+        //
+        pullToRelashLayout.setOnPullToRefreshListener(this);
+        pullToRelashLayout.setOnPullToRefreshListener(this);
         autoScrollViewPager.setAdapter(new SimplePagerAdapter<View>(bannerList));
         pullToRelashLayout.getSupperRecyclerView().addHeader(autoScrollViewPager);
 
@@ -243,5 +248,63 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
     @Subscribe
     public void onBrandClick(HomeBrandEvent event) {
         toast(event.title);
+    }
+
+    @Override
+    public void pullMore() {
+
+    }
+
+    @Override
+    public void loadMore() {
+    //    LogUtils.log("loadMore","loadMore");
+        loadData();
+    }
+
+    private void loadData() {
+        HomeBrandService homeBrandService = MyApplication.app.otherretrofit.create(HomeBrandService.class);
+        Call<ResponseBody> allBrand = homeBrandService.getAllBrand();
+       allBrand.enqueue(new Callback<ResponseBody>() {
+
+           private List<HomeDate> tempList;
+
+           @Override
+           public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+               try {
+                   tempList = new ArrayList<HomeDate>();
+                   String string = response.body().string();
+                   JSONObject jsonObject = new JSONObject(string);
+                   JSONArray datas = jsonObject.getJSONArray("datas");
+                   for (int i = 0; i < datas.length(); i++) {
+                       JSONObject js = datas.getJSONObject(i);
+                       Map<String ,String > map = new HashMap<String, String>();
+                       map.put("title",js.getString("title"));
+                       map.put("price", js.getString("price"));
+                       map.put("dis", js.getString("discount"));
+           //            LogUtils.log("imgpath",js.getString("imgpath")+"");
+                       map.put("src", HttpModel.IMG + js.getString("imgpath"));
+                       HomeDate homeDate = new HomeDate(HomeModel.NORMAL, map);
+                       tempList.add(homeDate);
+                   }
+
+               } catch (IOException e) {
+                   e.printStackTrace();
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }catch (Exception e){
+                   e.printStackTrace();
+               }finally {
+                   allHomeData.addAll(tempList);
+                   pullToRelashLayout.removeFooter();
+                   pullToRelashLayout.getSupperRecyclerView().getAdapter().notifyDataSetChanged();
+               }
+             pullToRelashLayout.setLoadSuccess();
+           }
+
+           @Override
+           public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+           }
+       });
     }
 }

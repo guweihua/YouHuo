@@ -168,7 +168,8 @@ public class SupperRecyclerView extends RecyclerView {
          @Override
          public void onBindViewHolder(ViewHolder holder, int position) {
             if (position >= heads.size()
-                    && position < heads.size() + rawAdapter.getItemCount()){
+                    && position < heads.size() + rawAdapter.getItemCount()
+                    && rawAdapter != null){
 
                 rawAdapter.onBindViewHolder(holder,position - heads.size());
             }

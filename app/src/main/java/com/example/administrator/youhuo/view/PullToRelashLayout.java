@@ -100,10 +100,11 @@ public class PullToRelashLayout extends RelativeLayout {
                 //上拉加载
                 footerParams.bottomMargin = Math.max(-footerView.getHeight() , lastBottom + (int)(-v));
                 footerView.setLayoutParams(footerParams);
+
                 recycerParams.topMargin = -(footerParams.bottomMargin + footerView.getHeight());
-                supperRecyclerView.setLayoutParams(recycerParams);
                 int i = (footerParams.bottomMargin + footerView.getHeight()) / 5;
                 footerView.setImageResource(images[i % images.length]);
+                supperRecyclerView.setLayoutParams(recycerParams);
             }
             return false;
         }
