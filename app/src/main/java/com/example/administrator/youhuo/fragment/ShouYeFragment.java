@@ -119,7 +119,7 @@ public class ShouYeFragment extends BaseStausFragment implements SuperViewPager.
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int topPosition = gridLayoutManager.findFirstVisibleItemPosition();
-                LogUtils.log("tag",topPosition+"");
+    //            LogUtils.log("tag",topPosition+"");
                 if (topPosition > 5){
                     upView.setVisibility(View.VISIBLE);
                 }else {

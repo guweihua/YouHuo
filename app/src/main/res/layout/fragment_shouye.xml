@@ -17,6 +17,7 @@
 
     <com.example.administrator.youhuo.view.PullToRelashLayout
         android:id="@+id/relash"
+        android:layout_below="@id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.example.administrator.youhuo.view.PullToRelashLayout>
