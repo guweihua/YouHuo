@@ -20,19 +20,19 @@ public class HttpModel {
     /**
      * 分类中的boys访问地址
      **/
-    public static final String CATEGORY_BOYS_URL = BASE + "categoryboy.php";
+    public static final String CATEGORY_BOYS_URL = "categoryboy.php";
     /**
      * 分类中的girls访问地址
      **/
-    public static final String CATEGORY_GIRLS_URL = BASE + "categorygirl.php";
+    public static final String CATEGORY_GIRLS_URL = "categorygirl.php";
     /**
      * 分类中的life访问地址
      **/
-    public static final String CATEGORY_LIFE_URL = BASE + "categorylife.php";
+    public static final String CATEGORY_LIFE_URL = "categorylife.php";
     /**
      * 分类中的二级菜单的访问地址
      **/
-    public static final String CATEGORY_VALUE_URL = "http://123.206.47.205:8080/yoho/categoryvalue";
+    public static final String CATEGORY_VALUE_URL = "categoryvalue";
     /**
      * 品牌中热门的访问地址
      **/
