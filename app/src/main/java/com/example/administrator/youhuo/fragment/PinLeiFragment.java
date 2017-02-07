@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.example.administrator.youhuo.R;
+import com.example.administrator.youhuo.adapter.FLPinLeiFragmentAdapter;
 import com.example.administrator.youhuo.view.PinLeiViewPager;
 
 import java.util.ArrayList;
@@ -33,13 +34,15 @@ public class PinLeiFragment extends BaseStausFragment {
     protected void initData() {
         super.initData();
         list = new ArrayList<>();
-    //    list.get(new )
+        list.add(new PLBoyFragment());
+        list.add(new PLGrilFragment());
+        list.add(new PLLifeFragment());
     }
 
     @Override
     protected void initAdapter() {
         super.initAdapter();
-
+        pinViewPager.setAdapter(new FLPinLeiFragmentAdapter(getFragmentManager(),list));
     }
 
     @Override
